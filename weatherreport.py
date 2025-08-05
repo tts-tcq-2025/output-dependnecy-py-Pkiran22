@@ -1,5 +1,3 @@
-
-
 def sensorStub():
     return {
         'temperatureInC': 50,
@@ -8,6 +6,14 @@ def sensorStub():
         'windSpeedKMPH': 52
     }
 
+
+def rainyStub():
+    return {
+        'temperatureInC': 30,
+        'precipitation': 70,  
+        'humidity': 60,
+        'windSpeedKMPH': 40  
+    }
 
 def report(sensorReader):
     readings = sensorReader()
@@ -22,23 +28,18 @@ def report(sensorReader):
 
 
 def testRainy():
-    weather = report(sensorStub)
-    print(weather)
-    assert("rain" in weather)
+    weather = report(rainyStub)
+    print("TestRainy:", weather)
+    assert("rain" in weather.lower())  
 
 
 def testHighPrecipitation():
-    # This instance of stub needs to be different-
-    # to give high precipitation (>60) and low wind-speed (<50)
-
-    weather = report(sensorStub)
-
-    # strengthen the assert to expose the bug
-    # (function returns Sunny day, it should predict rain)
-    assert(len(weather) > 0);
+    weather = report(rainyStub)
+    print("TestHighPrecipitation:", weather)
+    assert(weather == "Alert, Stormy with heavy rain")  
 
 
 if __name__ == '__main__':
     testRainy()
     testHighPrecipitation()
-    print("All is well (maybe!)");
+    print("All is well (maybe!)")
